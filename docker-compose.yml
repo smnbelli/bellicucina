@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: belli-cucina-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: belli_cucina
+      POSTGRES_USER: belli
+      POSTGRES_PASSWORD: belli_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - belli_cucina_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U belli -d belli_cucina"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  belli_cucina_pgdata:

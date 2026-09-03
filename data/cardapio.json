@@ -1,0 +1,228 @@
+{
+    "categorias": [
+        {
+            "slug": "nhoque",
+            "nome": "Nhoque tradicional caseiro",
+            "peso": "500g",
+            "preparo": "Cozinhe em água fervente até subirem à superfície.",
+            "itens": [
+                {
+                    "sabor": "Batata",
+                    "preco": 23
+                },
+                {
+                    "sabor": "Batata doce",
+                    "preco": 23
+                },
+                {
+                    "sabor": "Mandioca",
+                    "preco": 23
+                },
+                {
+                    "sabor": "Mandioquinha",
+                    "preco": 25
+                },
+                {
+                    "sabor": "Brócolis",
+                    "preco": 28
+                },
+                {
+                    "sabor": "Espinafre",
+                    "preco": 28
+                },
+                {
+                    "sabor": "Ervas finas",
+                    "preco": 28
+                }
+            ]
+        },
+        {
+            "slug": "nhocao",
+            "nome": "Nhocão recheado",
+            "peso": "500g",
+            "preparo": "Leve ao forno com molho, coberto, por cerca de 30 minutos.",
+            "itens": [
+                {
+                    "sabor": "Queijo",
+                    "preco": 32
+                },
+                {
+                    "sabor": "Presunto e queijo",
+                    "preco": 35
+                },
+                {
+                    "sabor": "Quatro queijos",
+                    "preco": 38
+                }
+            ]
+        },
+        {
+            "slug": "talharim",
+            "nome": "Talharim artesanal",
+            "peso": "500g",
+            "preparo": "Cozinhe por 5 a 7 minutos e finalize com seu molho favorito.",
+            "itens": [
+                {
+                    "sabor": "Tradicional",
+                    "preco": 22
+                },
+                {
+                    "sabor": "Espinafre",
+                    "preco": 26
+                },
+                {
+                    "sabor": "Beterraba",
+                    "preco": 26
+                }
+            ]
+        },
+        {
+            "slug": "rondelli",
+            "nome": "Rondelli",
+            "peso": "500g",
+            "preparo": "Disponha em uma travessa, cubra com molho e asse até borbulhar.",
+            "itens": [
+                {
+                    "sabor": "Presunto e queijo",
+                    "preco": 34
+                },
+                {
+                    "sabor": "Quatro queijos",
+                    "preco": 38
+                },
+                {
+                    "sabor": "Queijo com bacon",
+                    "preco": 40
+                }
+            ]
+        },
+        {
+            "slug": "canelone",
+            "nome": "Canelone",
+            "peso": "500g",
+            "preparo": "Cubra com molho e leve ao forno por 30 minutos.",
+            "itens": [
+                {
+                    "sabor": "Presunto e queijo",
+                    "preco": 34
+                },
+                {
+                    "sabor": "Frango com catupiry",
+                    "preco": 36
+                }
+            ]
+        },
+        {
+            "slug": "sofiatelli",
+            "nome": "Sofiatelli",
+            "peso": "500g",
+            "preparo": "Asse coberto com molho por 30 minutos.",
+            "itens": [
+                {
+                    "sabor": "Ricota e espinafre",
+                    "preco": 36
+                },
+                {
+                    "sabor": "Quatro queijos",
+                    "preco": 38
+                }
+            ]
+        },
+        {
+            "slug": "lasanha",
+            "nome": "Lasanha",
+            "peso": "1kg",
+            "preparo": "Leve ao forno coberta com papel-alumínio por 40 minutos.",
+            "itens": [
+                {
+                    "sabor": "Bolonhesa",
+                    "preco": 48
+                },
+                {
+                    "sabor": "Presunto e queijo",
+                    "preco": 45
+                },
+                {
+                    "sabor": "Quatro queijos",
+                    "preco": 52
+                }
+            ]
+        },
+        {
+            "slug": "tortei",
+            "nome": "Tortéi",
+            "peso": "500g",
+            "preparo": "Cozinhe até a massa ficar macia e sirva com molho quente.",
+            "itens": [
+                {
+                    "sabor": "Abóbora com carne seca",
+                    "preco": 42
+                },
+                {
+                    "sabor": "Abóbora com queijo",
+                    "preco": 38
+                }
+            ]
+        },
+        {
+            "slug": "capeletti",
+            "nome": "Capeletti",
+            "peso": "500g",
+            "preparo": "Cozinhe em caldo ou água fervente por 8 minutos.",
+            "itens": [
+                {
+                    "sabor": "Carne",
+                    "preco": 34
+                },
+                {
+                    "sabor": "Frango",
+                    "preco": 34
+                },
+                {
+                    "sabor": "Queijo",
+                    "preco": 36
+                }
+            ]
+        },
+        {
+            "slug": "ravioli",
+            "nome": "Ravioli",
+            "peso": "500g",
+            "preparo": "Cozinhe até subir à superfície e sirva imediatamente.",
+            "itens": [
+                {
+                    "sabor": "Carne",
+                    "preco": 34
+                },
+                {
+                    "sabor": "Ricota e espinafre",
+                    "preco": 38
+                },
+                {
+                    "sabor": "Queijo",
+                    "preco": 36
+                }
+            ]
+        },
+        {
+            "slug": "molhos",
+            "nome": "Molhos artesanais",
+            "peso": "500g",
+            "preparo": "Aqueça em fogo baixo e misture à massa.",
+            "itens": [
+                {
+                    "sabor": "Sugo",
+                    "preco": 18
+                },
+                {
+                    "sabor": "Bolonhesa",
+                    "preco": 24
+                },
+                {
+                    "sabor": "Branco",
+                    "preco": 22
+                }
+            ]
+        }
+    ]
+}
