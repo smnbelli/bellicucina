@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color: #17231d; background: #f7f2e8; font-family: 'Trebuchet MS', sans-serif; }
+:root { color: #17231d; background: #f7f2e8; font-family: 'Trebuchet MS', sans-serif; color-scheme: light; }
 * { box-sizing: border-box; }
-body { margin: 0; background: #f7f2e8; overflow-x: hidden; }
+body { margin: 0; background: #f7f2e8; overflow-x: hidden; transition: background-color .25s ease, color .25s ease; }
 ::selection { color: #f7f2e8; background: #c94b35; }
 .display { font-family: Georgia, serif; }
 .texture { background-image: radial-gradient(rgba(23, 75, 53, .08) 1px, transparent 1px); background-size: 16px 16px; }
@@ -25,3 +25,17 @@ body { margin: 0; background: #f7f2e8; overflow-x: hidden; }
 }
 .fade-up { animation: fade-up .7s ease both; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+.dark { color-scheme: dark; }
+.dark body, .dark #__nuxt { background: #132019; color: #f4eee2; }
+.dark .bg-cream, .dark .bg-white\/20, .dark .bg-white\/30, .dark .bg-white\/40 { background-color: #1b2b22; }
+.dark .bg-cream\/95 { background-color: rgba(19, 32, 25, .95); }
+.dark .text-ink, .dark .text-ink\/50, .dark .text-ink\/55, .dark .text-ink\/60, .dark .text-ink\/65, .dark .text-ink\/70 { color: #d8d2c6; }
+.dark .text-forest, .dark .text-leaf { color: #b9d6b1; }
+.dark .border-forest\/10, .dark .border-forest\/15, .dark .border-forest\/20 { border-color: rgba(185, 214, 177, .2); }
+.dark .availability-tooltip-content { background: #1b2b22; border-color: rgba(185, 214, 177, .25); color: #f4eee2; }
+.dark .floating-field label { background: #1b2b22; color: #b9b2a5; }
+.dark .floating-field input, .dark .floating-field select, .dark .floating-field textarea { background: #1b2b22; color: #f4eee2; border-color: rgba(185, 214, 177, .25); }
+.dark .texture { background-image: radial-gradient(rgba(185, 214, 177, .09) 1px, transparent 1px); }
+.dark .carousel-edge-fade::before { background-image: linear-gradient(to right, #132019, transparent); }
+.dark .carousel-edge-fade::after { background-image: linear-gradient(to left, #132019, transparent); }

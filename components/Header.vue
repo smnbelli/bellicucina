@@ -1,8 +1,9 @@
 <template>
-    <header class="relative border-b border-forest/10 bg-cream/95 sticky top-0 z-20 backdrop-blur">
+    <header class="border-b border-forest/10 bg-cream/95 sticky top-0 z-20 backdrop-blur">
         <div class="mx-auto flex min-w-0 max-w-6xl items-center gap-3 px-4 py-3 sm:gap-5 sm:px-5 sm:py-4">
             <NuxtLink to="/" aria-label="Belli Cucina" class="flex h-10 w-20 shrink-0 items-center sm:h-12 sm:w-44"><img
-                    src="/logo-preta.svg" alt="Belli Cucina" class="max-h-full max-w-full object-contain" /></NuxtLink>
+                    :src="isDark ? '/logo-branca.svg' : '/logo-preta.svg'" alt="Belli Cucina" width="176" height="48"
+                    decoding="async" fetchpriority="high" class="max-h-full max-w-full object-contain" /></NuxtLink>
             <button type="button"
                 class="inline-flex h-10 w-10 items-center justify-center rounded-full text-forest md:hidden"
                 :aria-label="menuOpen ? 'Fechar menu' : 'Abrir menu'" :aria-expanded="menuOpen"
@@ -18,7 +19,19 @@
                 <NuxtLink to="/modo-de-preparo" class="hover:text-tomato">Preparo</NuxtLink>
                 <NuxtLink to="/informacoes" class="hover:text-tomato">Informações</NuxtLink>
             </nav>
-            <div class="ml-auto shrink-0">
+            <div class="ml-auto flex shrink-0 items-center gap-2">
+                <button type="button"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-full text-forest transition hover:bg-forest/10"
+                    :aria-label="isDark ? 'Usar tema claro' : 'Usar tema escuro'"
+                    :title="isDark ? 'Usar tema claro' : 'Usar tema escuro'" @click="toggleTheme"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path v-if="!isDark"
+                            d="M12 3v2m0 14v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M3 12h2m14 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        <circle v-if="!isDark" cx="12" cy="12" r="4" />
+                        <path v-else d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+                    </svg></button>
                 <button v-if="count" type="button"
                     class="rounded-full border border-forest px-3 py-2 text-xs font-bold text-forest sm:px-4 sm:text-sm"
                     @click="isOpen = true">Carrinho ({{ count }})</button>
@@ -42,6 +55,7 @@
 </template>
 <script setup lang="ts">
 const { isOpen, count } = useCart()
+const { isDark, toggle: toggleTheme } = useTheme()
 const menuOpen = ref(false)
 </script>
 <style scoped>

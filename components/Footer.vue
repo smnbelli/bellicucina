@@ -1,7 +1,8 @@
 <template>
     <footer class="mt-20 border-t border-forest/10 bg-forest px-5 py-10 text-cream">
         <div class="mx-auto flex max-w-6xl flex-col justify-between gap-5 sm:flex-row sm:items-center">
-            <div><img src="/logo-branca.svg" alt="Belli Cucina" class="h-16 w-28 object-contain object-left" />
+            <div><img src="/logo-branca.svg" alt="Belli Cucina" width="112" height="64" loading="lazy" decoding="async"
+                    class="h-16 w-28 object-contain object-left" />
                 <p class="mt-1 text-sm text-cream/70">Massa artesanal para deixar o dia mais gostoso.</p>
             </div>
             <div class="flex items-center gap-5">
@@ -13,7 +14,8 @@
                         aria-hidden="true">
                         <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg></NuxtLink>
+                    </svg>
+                </NuxtLink>
             </div>
         </div>
     </footer>

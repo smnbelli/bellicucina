@@ -99,12 +99,12 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
                 <div :class="[showLeftFade ? 'before:opacity-100' : 'before:opacity-0', showRightFade ? 'after:opacity-100' : 'after:opacity-0']"
-                    class="relative max-w-full before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
+                    class="carousel-edge-fade relative max-w-full before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
                     <div ref="categoryCarousel"
                         class="hide-scrollbar flex max-w-full touch-pan-y cursor-grab gap-2 overflow-x-auto pb-2 active:cursor-grabbing"
                         @pointerdown="startDrag" @pointermove="dragCategories" @pointerup="endCategoryDrag"
@@ -198,7 +198,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
                             </svg></button>
                     </div><span class="text-xs font-bold uppercase tracking-widest text-ink/50">{{ selectedCategory.peso
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="mt-3 overflow-x-auto border-y border-forest/10">
                     <div v-for="item in selectedCategory.itens" :key="item.id"
