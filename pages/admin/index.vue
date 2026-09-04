@@ -49,7 +49,7 @@ const login = async () => {
 const saveAll = async () => {
     notice.value = ''
     try {
-        const items = data.value?.categorias.flatMap(category => category.itens).map(item => ({ id: item.id, sabor: item.sabor.trim(), preco: Number(item.preco), ativo: item.ativo, estoque_atual: item.estoque_atual === '' ? null : item.estoque_atual })) || []
+        const items = selectedCategory.value?.itens.map(item => ({ id: item.id, sabor: item.sabor.trim(), preco: Number(item.preco), ativo: item.ativo, estoque_atual: item.estoque_atual === '' ? null : item.estoque_atual })) || []
         saving.value = -1
         await Promise.all([
             $fetch('/api/admin/produtos', { method: 'PUT', body: { items } }),
@@ -99,7 +99,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -185,7 +185,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                             </svg></button>
                     </div><span v-if="!isEditing" class="text-xs font-bold uppercase tracking-widest text-ink/50">{{
                         selectedCategory.peso
-                        }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
+                    }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
                         class="w-24 border-b border-forest/30 bg-transparent text-right text-xs font-bold uppercase tracking-widest text-ink/70 outline-none focus:border-tomato" />
                 </div>
                 <label v-if="isEditing" class="mt-5 block text-xs text-ink/55">Modo de preparo<textarea
