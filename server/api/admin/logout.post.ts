@@ -1,1 +1,3 @@
-export default defineEventHandler((event) => { deleteCookie(event, 'belli_admin', { path: '/' }); return { ok: true } })
+import { clearAdminSession } from '../../utils/auth'
+
+export default defineEventHandler((event) => { clearAdminSession(event); return { ok: true } })

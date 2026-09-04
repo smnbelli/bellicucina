@@ -1,3 +1,4 @@
 import { getCatalog } from '../../utils/catalog'
+import { requireAdmin } from '../../utils/auth'
 
-export default defineEventHandler(async (event) => { if (getCookie(event, 'belli_admin') !== 'authenticated') throw createError({ statusCode: 401, statusMessage: 'Não autorizado' }); const config = useRuntimeConfig(event); return getCatalog(config.databaseUrl) })
+export default defineEventHandler(async (event) => { requireAdmin(event); const config = useRuntimeConfig(event); return getCatalog(config.databaseUrl) })

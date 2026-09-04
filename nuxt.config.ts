@@ -7,10 +7,11 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL || '',
-    adminPassword: process.env.ADMIN_PASSWORD || 'belli2025',
-    whatsappNumber: process.env.WHATSAPP_NUMBER || '5511967479054',
+    adminPassword: process.env.ADMIN_PASSWORD || '',
+    adminSessionSecret: process.env.ADMIN_SESSION_SECRET || '',
+    whatsappNumber: process.env.WHATSAPP_NUMBER || '',
     public: {
-      whatsappNumber: process.env.WHATSAPP_NUMBER || '5511967479054'
+      whatsappNumber: process.env.WHATSAPP_NUMBER || ''
     }
   },
   app: {

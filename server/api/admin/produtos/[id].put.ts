@@ -1,7 +1,8 @@
 import { updateCatalogItem } from '../../../utils/catalog'
+import { requireAdmin } from '../../../utils/auth'
 
 export default defineEventHandler(async (event) => {
-  if (getCookie(event, 'belli_admin') !== 'authenticated') throw createError({ statusCode: 401, statusMessage: 'Não autorizado' })
+  requireAdmin(event)
   const id = Number(getRouterParam(event, 'id'))
   const body = await readBody<{ preco?: number; ativo?: boolean; estoque_atual?: number | null }>(event)
   const config = useRuntimeConfig(event)

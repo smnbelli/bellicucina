@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-O app usa PostgreSQL como fonte de dados. A senha local do admin é `belli2025` quando `ADMIN_PASSWORD` não está definida.
+O app usa PostgreSQL como fonte de dados. `ADMIN_PASSWORD` e `ADMIN_SESSION_SECRET` são obrigatórias para acessar o admin.
 
 ## PostgreSQL
 
@@ -25,7 +25,7 @@ npm run dev
 
 No PowerShell, `copy` também pode ser substituído por `Copy-Item .env.example .env`. Para parar o banco, use `npm run db:down`. O volume `belli_cucina_pgdata` mantém os dados entre reinícios.
 
-O usuário local é `belli`, a senha é `belli_local` e o banco é `belli_cucina`. Para outro ambiente, copie `.env.example` para `.env` e preencha `DATABASE_URL`, `ADMIN_PASSWORD` e `WHATSAPP_NUMBER`.
+O usuário local é `belli`, a senha é `belli_local` e o banco é `belli_cucina`. Para outro ambiente, copie `.env.example` para `.env` e preencha `DATABASE_URL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` e `WHATSAPP_NUMBER`.
 
 Depois de subir o banco local, use `npm run db:push` apenas em desenvolvimento. Para Neon/produção, gere e aplique migrations versionadas:
 
@@ -44,6 +44,7 @@ No Netlify, configure em **Site configuration > Environment variables**:
 ```text
 DATABASE_URL=postgresql://...neon.tech/...?...&sslmode=require
 ADMIN_PASSWORD=uma-senha-forte
+ADMIN_SESSION_SECRET=um-segredo-aleatorio-com-pelo-menos-32-caracteres
 WHATSAPP_NUMBER=5511999999999
 ```
 
