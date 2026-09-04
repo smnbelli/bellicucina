@@ -19,16 +19,16 @@ export const getCatalog = async (databaseUrl: string) => {
 	return result
 }
 
-export const updateCatalogItem = async (databaseUrl: string, id: number, values: { preco: number; ativo: boolean; estoque_atual: number | null }) => {
+export const updateCatalogItem = async (databaseUrl: string, id: number, values: { sabor?: string; preco: number; ativo: boolean; estoque_atual: number | null }) => {
 	if (!databaseUrl) throw createError({ statusCode: 503, statusMessage: 'DATABASE_URL não configurada' })
-	const [item] = await getDb(databaseUrl).update(produtos).set({ preco: values.preco, ativo: values.ativo, estoqueAtual: values.estoque_atual, atualizadoEm: new Date() }).where(eq(produtos.id, id)).returning({ id: produtos.id, sabor: produtos.sabor, preco: produtos.preco, ativo: produtos.ativo, estoque_atual: produtos.estoqueAtual })
+	const [item] = await getDb(databaseUrl).update(produtos).set({ sabor: values.sabor?.trim(), preco: values.preco, ativo: values.ativo, estoqueAtual: values.estoque_atual, atualizadoEm: new Date() }).where(eq(produtos.id, id)).returning({ id: produtos.id, sabor: produtos.sabor, preco: produtos.preco, ativo: produtos.ativo, estoque_atual: produtos.estoqueAtual })
 	return item
 }
 
-export const updateCatalogItems = async (databaseUrl: string, items: Array<{ id: number; preco: number; ativo: boolean; estoque_atual: number | null }>) => {
+export const updateCatalogItems = async (databaseUrl: string, items: Array<{ id: number; sabor: string; preco: number; ativo: boolean; estoque_atual: number | null }>) => {
 	if (!databaseUrl) throw createError({ statusCode: 503, statusMessage: 'DATABASE_URL não configurada' })
 	return getDb(databaseUrl).transaction(async (tx) => {
-		for (const item of items) await tx.update(produtos).set({ preco: item.preco, ativo: item.ativo, estoqueAtual: item.estoque_atual, atualizadoEm: new Date() }).where(eq(produtos.id, item.id))
+		for (const item of items) await tx.update(produtos).set({ sabor: item.sabor.trim(), preco: item.preco, ativo: item.ativo, estoqueAtual: item.estoque_atual, atualizadoEm: new Date() }).where(eq(produtos.id, item.id))
 		return { updated: items.length }
 	})
 }

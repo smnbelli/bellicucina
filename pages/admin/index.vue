@@ -7,10 +7,9 @@ const notice = ref('')
 const selectedSlug = ref('')
 const showNew = ref(false)
 const showNewCategory = ref(false)
-const showEditCategory = ref(false)
+const isEditing = ref(false)
 const modalField = ref<HTMLElement | null>(null)
 const newCategory = reactive({ nome: '', slug: '', peso: '500g', preparo: '' })
-const editCategory = reactive({ id: 0, nome: '', peso: '', preparo: '' })
 const newProduct = reactive({ categoriaId: 0, sabor: '', preco: 0 })
 const categoryCarousel = ref<HTMLElement | null>(null)
 const dragStart = ref(0)
@@ -29,9 +28,9 @@ const selectAdminCategory = (slug: string) => { if (ignoreCategoryClick.value) {
 const slugify = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const openProductModal = () => { showNewCategory.value = false; showNew.value = true; nextTick(() => modalField.value?.focus()) }
 const openCategoryModal = () => { showNew.value = false; showNewCategory.value = true; nextTick(() => modalField.value?.focus()) }
-const openEditCategory = () => { if (!selectedCategory.value) return; Object.assign(editCategory, { id: selectedCategory.value.id, nome: selectedCategory.value.nome, peso: selectedCategory.value.peso, preparo: selectedCategory.value.preparo || '' }); showNew.value = false; showNewCategory.value = false; showEditCategory.value = true; nextTick(() => modalField.value?.focus()) }
-const saveCategory = async () => { await $fetch(`/api/admin/categorias/${editCategory.id}`, { method: 'PUT', body: { nome: editCategory.nome, peso: editCategory.peso, preparo: editCategory.preparo } }); showEditCategory.value = false; await refresh(); selectedSlug.value = data.value?.categorias.find(category => category.id === editCategory.id)?.slug || selectedSlug.value; notice.value = 'Categoria atualizada.' }
-const closeModal = () => { showNew.value = false; showNewCategory.value = false; showEditCategory.value = false }
+const openEditCategory = () => { isEditing.value = true }
+const cancelEdit = async () => { isEditing.value = false; await refresh() }
+const closeModal = () => { showNew.value = false; showNewCategory.value = false }
 const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') closeModal() }
 const updateCategoryFades = () => { if (!categoryCarousel.value) return; showLeftFade.value = categoryCarousel.value.scrollLeft > 1; showRightFade.value = categoryCarousel.value.scrollLeft + categoryCarousel.value.clientWidth < categoryCarousel.value.scrollWidth - 1 }
 onMounted(() => { window.addEventListener('pointerup', endCategoryDrag); window.addEventListener('resize', updateCategoryFades); window.addEventListener('keydown', closeOnEscape); nextTick(updateCategoryFades) })
@@ -50,12 +49,13 @@ const login = async () => {
 const saveAll = async () => {
     notice.value = ''
     try {
-        const items = data.value?.categorias.flatMap(category => category.itens).map(item => ({ id: item.id, preco: Number(item.preco), ativo: item.ativo, estoque_atual: item.estoque_atual === '' ? null : item.estoque_atual })) || []
+        const items = data.value?.categorias.flatMap(category => category.itens).map(item => ({ id: item.id, sabor: item.sabor.trim(), preco: Number(item.preco), ativo: item.ativo, estoque_atual: item.estoque_atual === '' ? null : item.estoque_atual })) || []
         saving.value = -1
         await Promise.all([
             $fetch('/api/admin/produtos', { method: 'PUT', body: { items } }),
-            selectedCategory.value?.id ? $fetch(`/api/admin/categorias/${selectedCategory.value.id}`, { method: 'PUT', body: { preparo: selectedCategory.value.preparo } }) : Promise.resolve()
+            selectedCategory.value?.id ? $fetch(`/api/admin/categorias/${selectedCategory.value.id}`, { method: 'PUT', body: { nome: selectedCategory.value.nome, peso: selectedCategory.value.peso, preparo: selectedCategory.value.preparo } }) : Promise.resolve()
         ])
+        isEditing.value = false
         notice.value = 'Todas as alterações foram salvas.'
     } catch { notice.value = 'Não foi possível salvar as alterações.' } finally { saving.value = null }
 }
@@ -120,7 +120,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                         class="rounded-full bg-forest px-4 py-2 text-sm font-bold text-white"
                         @click="openCategoryModal">+ Nova categoria</button></div>
             </div>
-            <div v-if="showNew || showNewCategory || showEditCategory"
+            <div v-if="showNew || showNewCategory"
                 class="fixed inset-0 z-50 flex items-center justify-center bg-ink/45 p-4 backdrop-blur-sm" role="dialog"
                 aria-modal="true" @click.self="closeModal">
                 <form v-if="showNew"
@@ -165,50 +165,52 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                         class="rounded-full bg-forest px-5 py-3 font-bold text-white sm:col-span-2">Criar
                         categoria</button>
                 </form>
-                <form v-if="showEditCategory"
-                    class="grid max-h-[90vh] w-full max-w-2xl gap-4 overflow-y-auto border border-forest/15 bg-cream p-5 shadow-2xl sm:grid-cols-2"
-                    @submit.prevent="saveCategory">
-                    <div class="flex items-center justify-between sm:col-span-2">
-                        <h2 class="display text-2xl font-bold text-forest">Editar categoria</h2><button type="button"
-                            class="text-sm font-bold text-tomato underline" @click="closeModal">Fechar</button>
-                    </div>
-                    <div class="floating-field"><input ref="modalField" id="edit-category-nome"
-                            v-model="editCategory.nome" required placeholder=" " /><label for="edit-category-nome">Nome
-                            da categoria</label></div>
-                    <div class="floating-field"><input id="edit-category-peso" v-model="editCategory.peso" required
-                            placeholder=" " /><label for="edit-category-peso">Peso da porção</label></div>
-                    <div class="floating-field sm:col-span-2"><textarea id="edit-category-preparo"
-                            v-model="editCategory.preparo" required rows="4" placeholder=" "></textarea><label
-                            for="edit-category-preparo">Modo de preparo da categoria</label></div>
-                    <button class="rounded-full bg-forest px-5 py-3 font-bold text-white sm:col-span-2">Salvar
-                        categoria</button>
-                </form>
             </div>
             <section v-if="selectedCategory" class="mt-10">
                 <div class="flex items-baseline justify-between">
                     <div class="flex items-center gap-3">
-                        <h2 class="display text-2xl font-bold text-forest">{{ selectedCategory.nome }}</h2><button
+                        <h2 v-if="!isEditing" class="display text-2xl font-bold text-forest">{{ selectedCategory.nome }}
+                        </h2><input v-else v-model="selectedCategory.nome" aria-label="Nome da categoria"
+                            class="display w-full max-w-md border-b border-forest/30 bg-transparent text-2xl font-bold text-forest outline-none focus:border-tomato" /><button
                             type="button"
                             class="inline-flex h-8 w-8 items-center justify-center rounded-full text-tomato transition hover:bg-tomato/10"
-                            aria-label="Editar categoria" title="Editar categoria" @click="openEditCategory"><svg
+                            :aria-label="isEditing ? 'Fechar edição' : 'Editar categoria'"
+                            :title="isEditing ? 'Fechar edição' : 'Editar categoria'"
+                            @click="isEditing ? cancelEdit() : openEditCategory()"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" aria-hidden="true">
                                 <path d="M12 20h9" />
                                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
                             </svg></button>
-                    </div><span class="text-xs font-bold uppercase tracking-widest text-ink/50">{{ selectedCategory.peso
-                    }}</span>
+                    </div><span v-if="!isEditing" class="text-xs font-bold uppercase tracking-widest text-ink/50">{{
+                        selectedCategory.peso
+                        }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
+                        class="w-24 border-b border-forest/30 bg-transparent text-right text-xs font-bold uppercase tracking-widest text-ink/70 outline-none focus:border-tomato" />
                 </div>
+                <label v-if="isEditing" class="mt-5 block text-xs text-ink/55">Modo de preparo<textarea
+                        v-model="selectedCategory.preparo" rows="3"
+                        class="mt-1 w-full border border-forest/15 bg-cream px-3 py-2 text-sm text-ink outline-none focus:border-tomato" /></label>
                 <div class="mt-3 overflow-x-auto border-y border-forest/10">
                     <div v-for="item in selectedCategory.itens" :key="item.id"
-                        class="grid min-w-[760px] grid-cols-[1fr_120px_150px_130px_100px] items-center gap-4 border-b border-forest/10 py-3 last:border-0">
-                        <span class="font-bold">{{ item.sabor }}</span><label class="text-xs text-ink/55">Preço<input
-                                v-model.number="item.preco" type="number" min="0" step="1"
+                        class="grid min-w-[820px] grid-cols-[1fr_120px_190px_130px_100px] items-center gap-4 border-b border-forest/10 py-3 last:border-0">
+                        <span v-if="!isEditing" class="font-bold">{{ item.sabor }}</span><label v-else
+                            class="text-xs text-ink/55">Sabor/recheio<input v-model="item.sabor" required
+                                class="mt-1 w-full border border-forest/15 bg-cream px-2 py-2 font-bold outline-none focus:border-tomato" /></label><label
+                            class="text-xs text-ink/55">Preço<input v-model.number="item.preco" type="number" min="0"
+                                step="1"
                                 class="mt-1 w-full border border-forest/15 bg-cream px-2 py-2 font-bold" /></label><label
                             class="text-xs text-ink/55">Estoque <span class="text-[10px]">(vazio =
                                 sob encomenda)</span><input v-model.number="item.estoque_atual" type="number" min="0"
-                                class="mt-1 w-full border border-forest/15 bg-cream px-2 py-2 font-bold" /></label>
+                                class="mt-1 w-[110px] border border-forest/15 bg-cream px-2 py-2 font-bold" /><span
+                                class="ml-2 inline-flex gap-1"><button type="button"
+                                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-forest/20 font-bold text-forest hover:border-tomato hover:text-tomato"
+                                    aria-label="Diminuir estoque" title="Diminuir estoque"
+                                    @click="item.estoque_atual = Math.max(0, (Number(item.estoque_atual) || 0) - 1)">-</button><button
+                                    type="button"
+                                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-forest/20 font-bold text-forest hover:border-tomato hover:text-tomato"
+                                    aria-label="Aumentar estoque" title="Aumentar estoque"
+                                    @click="item.estoque_atual = (Number(item.estoque_atual) || 0) + 1">+</button></span></label>
                         <div class="text-xs text-ink/55">Disponibilidade<strong
                                 class="mt-1 block text-lg text-forest">{{ typeof item.estoque_atual === 'number' &&
                                     item.estoque_atual > 0 ? `${item.estoque_atual} pronta entrega` : 'Sob encomenda'
@@ -217,11 +219,27 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                             class="rounded-full px-3 py-2 text-xs font-bold" @click="item.ativo = !item.ativo">{{
                                 item.ativo ? 'Ativo' : 'Pausado' }}</button>
                     </div>
-                </div><button
-                    class="mt-8 w-full rounded-full bg-tomato px-5 py-3 font-bold text-white disabled:opacity-50"
-                    :disabled="saving === -1" @click="saveAll"><span v-if="saving === -1">Salvando...</span><span
-                        v-else>Salvar todas as alterações</span></button>
+                </div>
+                <div v-if="isEditing" class="mt-8 flex gap-3"><button type="button"
+                        class="rounded-full border border-forest px-5 py-3 font-bold text-forest"
+                        @click="cancelEdit">Cancelar</button><button
+                        class="mt-8 w-full rounded-full bg-tomato px-5 py-3 font-bold text-white disabled:opacity-50"
+                        :disabled="saving === -1" @click="saveAll"><span v-if="saving === -1">Salvando...</span><span
+                            v-else>Salvar todas as alterações</span></button></div>
             </section>
         </template>
     </div>
 </template>
+
+<style scoped>
+input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+</style>
