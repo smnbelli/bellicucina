@@ -5,7 +5,7 @@ import { categorias, produtos } from '../db/schema'
 export type CatalogItem = { id?: number; sabor: string; preco: number; ativo?: boolean; estoque_atual?: number | null }
 export type CatalogCategory = { id?: number; slug: string; nome: string; peso: string; preparo?: string; itens: CatalogItem[] }
 
-export const isAvailable = (item: CatalogItem) => item.ativo !== false
+export const isAvailable = (item: CatalogItem) => item.ativo === true
 
 export const getCatalog = async (databaseUrl: string) => {
 	if (!databaseUrl) throw createError({ statusCode: 503, statusMessage: 'DATABASE_URL não configurada' })
