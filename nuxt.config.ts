@@ -2,6 +2,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-15',
   devtools: { enabled: false },
   experimental: { appManifest: false },
+  nitro: { preset: 'netlify' },
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
   runtimeConfig: {

@@ -27,7 +27,27 @@ No PowerShell, `copy` também pode ser substituído por `Copy-Item .env.example 
 
 O usuário local é `belli`, a senha é `belli_local` e o banco é `belli_cucina`. Para outro ambiente, copie `.env.example` para `.env` e preencha `DATABASE_URL`, `ADMIN_PASSWORD` e `WHATSAPP_NUMBER`.
 
-Depois de subir o banco, crie as tabelas com `npm run db:push` e popule `categorias` e `produtos` com `npm run db:seed`.
+Depois de subir o banco local, use `npm run db:push` apenas em desenvolvimento. Para Neon/produção, gere e aplique migrations versionadas:
+
+```bash
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
+
+O `db:generate` deve ser executado depois de cada alteração em `server/db/schema.ts`; os arquivos gerados em `server/db/migrations` devem ser commitados. O `db:migrate` aplica esses arquivos na base indicada por `DATABASE_URL`.
+
+## Deploy no Netlify
+
+No Netlify, configure em **Site configuration > Environment variables**:
+
+```text
+DATABASE_URL=postgresql://...neon.tech/...?...&sslmode=require
+ADMIN_PASSWORD=uma-senha-forte
+WHATSAPP_NUMBER=5511999999999
+```
+
+O build usa `npm run build` e publica `dist`. Depois de salvar as variáveis, faça um novo deploy. `DATABASE_URL` é obrigatória porque o cardápio usa PostgreSQL em runtime.
 
 `GET /api/cardapio`, `GET /api/admin/produtos`, `PUT /api/admin/produtos` e `PUT /api/admin/produtos/:id` usam PostgreSQL via Drizzle. O JSON é usado apenas pelo script inicial de seed e não é consultado pelo site.
 
