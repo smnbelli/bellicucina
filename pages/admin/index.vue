@@ -41,11 +41,11 @@ watch(data, () => nextTick(updateCategoryFades))
 const login = async () => {
     loginError.value = ''
     try {
-        await $fetch('/api/admin/login', { method: 'POST', body: { password: password.value } })
+        await $fetch('/api/admin/login', { method: 'POST', body: { password: password.value }, credentials: 'include' })
         loggedIn.value = true
         await refresh()
         selectedSlug.value = data.value?.categorias[0]?.slug || ''
-    } catch { loginError.value = 'Senha incorreta.' }
+    } catch (error: any) { loginError.value = error?.data?.message || error?.data?.statusMessage || 'Não foi possível entrar no painel.' }
 }
 const saveAll = async () => {
     notice.value = ''
@@ -99,7 +99,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -198,7 +198,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
                             </svg></button>
                     </div><span class="text-xs font-bold uppercase tracking-widest text-ink/50">{{ selectedCategory.peso
-                    }}</span>
+                        }}</span>
                 </div>
                 <div class="mt-3 overflow-x-auto border-y border-forest/10">
                     <div v-for="item in selectedCategory.itens" :key="item.id"
