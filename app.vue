@@ -5,6 +5,6 @@
             <NuxtPage />
         </main>
         <Footer />
-        <CartDrawer />
+        <LazyCartDrawer />
     </div>
 </template>
