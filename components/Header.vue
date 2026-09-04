@@ -1,8 +1,8 @@
 <template>
     <header class="border-b border-forest/10 bg-cream/95 sticky top-0 z-20 backdrop-blur">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-            <NuxtLink to="/" aria-label="Belli Cucina" class="flex h-12 w-44 items-center"><img src="/logo-laranja.svg"
-                    alt="Belli Cucina" class="max-h-full max-w-full object-contain" /></NuxtLink>
+            <NuxtLink to="/" aria-label="Belli Cucina" class="flex h-12 w-32 items-center sm:w-44"><img
+                    src="/logo-preta.svg" alt="Belli Cucina" class="max-h-full max-w-full object-contain" /></NuxtLink>
             <nav class="hidden items-center gap-7 text-sm font-bold md:flex">
                 <NuxtLink to="/cardapio" class="hover:text-tomato">Cardápio</NuxtLink>
                 <NuxtLink to="/modo-de-preparo" class="hover:text-tomato">Preparo</NuxtLink>

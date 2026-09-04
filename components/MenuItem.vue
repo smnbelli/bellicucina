@@ -22,9 +22,9 @@ const addToCart = () => add({ key: `${props.categoria}-${props.item.id || props.
             <p v-if="item.ativo === false" class="mt-1 text-xs font-bold uppercase tracking-widest text-tomato">
                 Indisponível</p>
         </div>
-        <div class="flex items-center justify-between gap-5 sm:justify-end"><strong class="text-lg">{{
+        <div class="flex items-center justify-between gap-5 sm:justify-end"><strong class="shrink-0 text-lg">{{
             formatPrice(item.preco) }}</strong><button v-if="item.ativo !== false" type="button"
-                class="rounded-full bg-forest px-4 py-2 text-xs font-bold text-white transition hover:bg-tomato"
+                class="mobile-compact-button rounded-full bg-forest px-4 py-2 text-xs font-bold text-white transition hover:bg-tomato"
                 @click="addToCart">Adicionar ao carrinho</button></div>
     </article>
 </template>

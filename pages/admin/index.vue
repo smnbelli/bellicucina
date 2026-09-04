@@ -82,7 +82,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
     <div class="mx-auto max-w-6xl px-5 py-14">
         <div v-if="!loggedIn" class="mx-auto max-w-md border border-forest/15 bg-white/40 p-8">
             <p class="text-xs font-bold uppercase tracking-[.25em] text-tomato">Área restrita</p>
-            <h1 class="display mt-3 text-4xl font-bold text-forest">Painel Belli.</h1>
+            <h1 class="display mt-3 text-4xl font-bold text-forest">Admin Belli Cucina.</h1>
             <p class="mt-3 text-sm text-ink/60">Entre para atualizar preços e disponibilidade do cardápio.</p>
             <form class="mt-8" @submit.prevent="login"><label class="text-sm font-bold"
                     for="password">Senha</label><input id="password" v-model="password" type="password"

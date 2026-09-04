@@ -17,7 +17,11 @@ body { margin: 0; background: #f7f2e8; }
 .floating-field select { padding-top: 1.15rem; }
 .floating-field select + label { top: 0; transform: translateY(-50%); color: #c94b35; font-size: .7rem; font-weight: 700; }
 .floating-field input:focus, .floating-field select:focus, .floating-field textarea:focus { border-color: #c94b35; }
-.availability-tooltip-content { visibility: hidden; position: absolute; right: 0; top: calc(100% + .5rem); z-index: 20; width: 15rem; border: 1px solid rgba(23, 75, 53, .15); background: #f7f2e8; padding: .75rem; color: #17231d; font-size: .75rem; font-weight: 400; line-height: 1.4; opacity: 0; transform: translateY(-4px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.availability-tooltip-content { visibility: hidden; position: absolute; left: 0; top: calc(100% + .5rem); z-index: 20; width: min(15rem, calc(100vw - 2rem)); max-width: calc(100vw - 2rem); overflow-wrap: anywhere; border: 1px solid rgba(23, 75, 53, .15); background: #f7f2e8; padding: .75rem; color: #17231d; font-size: .75rem; font-weight: 400; line-height: 1.4; opacity: 0; transform: translateY(-4px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
 .availability-tooltip:hover .availability-tooltip-content, .availability-tooltip:focus .availability-tooltip-content { visibility: visible; opacity: 1; transform: translateY(0); }
+@media (max-width: 640px) {
+	.mobile-compact-button { padding: .6rem .75rem; font-size: .7rem; }
+	.menu-category-title { font-size: 1.65rem; line-height: 1.05; }
+}
 .fade-up { animation: fade-up .7s ease both; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }

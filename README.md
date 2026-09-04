@@ -52,6 +52,8 @@ O build usa `npm run build` e publica `dist`. Depois de salvar as variáveis, fa
 
 `GET /api/cardapio`, `GET /api/admin/produtos`, `PUT /api/admin/produtos` e `PUT /api/admin/produtos/:id` usam PostgreSQL via Drizzle. O JSON é usado apenas pelo script inicial de seed e não é consultado pelo site.
 
+`admin_users` está reservada para uma futura autenticação com múltiplos usuários e senha hash. O login atual usa `ADMIN_PASSWORD` e `ADMIN_SESSION_SECRET`; por isso essa tabela não é consultada neste momento. O acesso discreto ao painel fica no ícone de cadeado no rodapé ou diretamente em `/admin`.
+
 ## Rotas
 
 - `/` - apresentação da marca
