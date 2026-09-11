@@ -110,14 +110,14 @@ const moveCategory = async (direction: -1 | 1) => {
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
                 <div :class="[showLeftFade ? 'before:opacity-100' : 'before:opacity-0', showRightFade ? 'after:opacity-100' : 'after:opacity-0']"
-                    class="carousel-edge-fade relative max-w-full before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
+                    class="carousel-edge-fade relative max-w-full before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity md:before:hidden md:after:hidden">
                     <div ref="categoryCarousel"
-                        class="hide-scrollbar momentum-scroll-x flex max-w-full touch-pan-x cursor-grab gap-2 overflow-x-auto pb-2 active:cursor-grabbing"
+                        class="hide-scrollbar momentum-scroll-x flex max-w-full touch-pan-x cursor-grab gap-2 overflow-x-auto pb-2 active:cursor-grabbing md:flex-wrap md:cursor-auto md:overflow-visible md:pb-0"
                         @pointerdown="startDrag" @pointermove="dragCategories" @pointerup="endCategoryDrag"
                         @pointercancel="endCategoryDrag" @scroll="updateCategoryFades"><button
                             v-for="categoria in data?.categorias" :key="categoria.slug" type="button"
@@ -212,7 +212,7 @@ const moveCategory = async (direction: -1 | 1) => {
                             </svg></button>
                     </div><span v-if="!isEditing" class="text-xs font-bold uppercase tracking-widest text-ink/50">{{
                         selectedCategory.peso
-                    }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
+                        }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
                         class="w-24 border-b border-forest/30 bg-transparent text-right text-xs font-bold uppercase tracking-widest text-ink/70 outline-none focus:border-tomato" />
                 </div>
                 <label v-if="isEditing" class="mt-5 block text-xs text-ink/55">Modo de preparo<textarea
