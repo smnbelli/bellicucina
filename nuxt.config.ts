@@ -11,7 +11,8 @@ export default defineNuxtConfig({
     adminSessionSecret: process.env.ADMIN_SESSION_SECRET || '',
     whatsappNumber: process.env.WHATSAPP_NUMBER || '',
     public: {
-      whatsappNumber: process.env.WHATSAPP_NUMBER || ''
+      whatsappNumber: process.env.WHATSAPP_NUMBER || '',
+      instagramUrl: process.env.INSTAGRAM_URL || ''
     }
   },
   app: {

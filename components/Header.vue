@@ -18,6 +18,7 @@
                 <NuxtLink to="/cardapio" class="hover:text-tomato">Cardápio</NuxtLink>
                 <NuxtLink to="/modo-de-preparo" class="hover:text-tomato">Preparo</NuxtLink>
                 <NuxtLink to="/informacoes" class="hover:text-tomato">Informações</NuxtLink>
+                <NuxtLink to="/contato" class="hover:text-tomato">Contato</NuxtLink>
             </nav>
             <div class="ml-auto flex shrink-0 items-center gap-2">
                 <button type="button"
@@ -47,8 +48,10 @@
                     @click="menuOpen = false">Cardápio</NuxtLink>
                 <NuxtLink to="/modo-de-preparo" class="block border-b border-forest/10 py-3 font-bold"
                     @click="menuOpen = false">Preparo</NuxtLink>
-                <NuxtLink to="/informacoes" class="block py-3 font-bold" @click="menuOpen = false">Informações
+                <NuxtLink to="/informacoes" class="block border-b border-forest/10 py-3 font-bold"
+                    @click="menuOpen = false">Informações
                 </NuxtLink>
+                <NuxtLink to="/contato" class="block py-3 font-bold" @click="menuOpen = false">Contato</NuxtLink>
             </nav>
         </Transition>
     </header>

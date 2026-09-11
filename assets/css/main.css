@@ -10,6 +10,7 @@ body { margin: 0; background: #f7f2e8; overflow-x: hidden; transition: backgroun
 .texture { background-image: radial-gradient(rgba(23, 75, 53, .08) 1px, transparent 1px); background-size: 16px 16px; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
+.momentum-scroll-x { -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; scroll-behavior: smooth; }
 .floating-field { position: relative; }
 .floating-field label { pointer-events: none; position: absolute; left: .75rem; top: 50%; z-index: 1; transform: translateY(-50%); background: #f7f2e8; padding: 0 .25rem; color: rgba(23, 35, 29, .55); transition: top .2s ease, transform .2s ease, color .2s ease, font-size .2s ease; }
 .floating-field input:focus + label, .floating-field input:not(:placeholder-shown) + label, .floating-field select:focus + label, .floating-field select.has-value + label, .floating-field textarea:focus + label, .floating-field textarea:not(:placeholder-shown) + label { top: 0; transform: translateY(-50%); color: #c94b35; font-size: .7rem; font-weight: 700; }

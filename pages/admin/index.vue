@@ -21,8 +21,8 @@ const showLeftFade = ref(false)
 const showRightFade = ref(false)
 const { data, refresh } = await useFetch<{ categorias: any[] }>('/api/admin/produtos', { immediate: false })
 const selectedCategory = computed(() => data.value?.categorias.find(category => category.slug === selectedSlug.value) || data.value?.categorias[0])
-const startDrag = (event: PointerEvent) => { if (!categoryCarousel.value) return; pointerActive.value = true; isDragging.value = false; dragStart.value = event.clientX; scrollStart.value = categoryCarousel.value.scrollLeft }
-const dragCategories = (event: PointerEvent) => { if (!categoryCarousel.value || !pointerActive.value) return; if (Math.abs(event.clientX - dragStart.value) > 6) isDragging.value = true; if (isDragging.value) categoryCarousel.value.scrollLeft = scrollStart.value - (event.clientX - dragStart.value) }
+const startDrag = (event: PointerEvent) => { if (!categoryCarousel.value || event.pointerType === 'touch') return; pointerActive.value = true; isDragging.value = false; dragStart.value = event.clientX; scrollStart.value = categoryCarousel.value.scrollLeft }
+const dragCategories = (event: PointerEvent) => { if (!categoryCarousel.value || !pointerActive.value || event.pointerType === 'touch') return; if (Math.abs(event.clientX - dragStart.value) > 6) isDragging.value = true; if (isDragging.value) categoryCarousel.value.scrollLeft = scrollStart.value - (event.clientX - dragStart.value) }
 const endCategoryDrag = () => { ignoreCategoryClick.value = isDragging.value; isDragging.value = false; pointerActive.value = false }
 const selectAdminCategory = (slug: string) => { if (ignoreCategoryClick.value) { ignoreCategoryClick.value = false; return } selectedSlug.value = slug }
 const slugify = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -99,14 +99,14 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
                 <div :class="[showLeftFade ? 'before:opacity-100' : 'before:opacity-0', showRightFade ? 'after:opacity-100' : 'after:opacity-0']"
                     class="carousel-edge-fade relative max-w-full before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
                     <div ref="categoryCarousel"
-                        class="hide-scrollbar flex max-w-full touch-pan-y cursor-grab gap-2 overflow-x-auto pb-2 active:cursor-grabbing"
+                        class="hide-scrollbar momentum-scroll-x flex max-w-full touch-pan-x cursor-grab gap-2 overflow-x-auto pb-2 active:cursor-grabbing"
                         @pointerdown="startDrag" @pointermove="dragCategories" @pointerup="endCategoryDrag"
                         @pointercancel="endCategoryDrag" @scroll="updateCategoryFades"><button
                             v-for="categoria in data?.categorias" :key="categoria.slug" type="button"
@@ -185,7 +185,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                             </svg></button>
                     </div><span v-if="!isEditing" class="text-xs font-bold uppercase tracking-widest text-ink/50">{{
                         selectedCategory.peso
-                    }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
+                        }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
                         class="w-24 border-b border-forest/30 bg-transparent text-right text-xs font-bold uppercase tracking-widest text-ink/70 outline-none focus:border-tomato" />
                 </div>
                 <label v-if="isEditing" class="mt-5 block text-xs text-ink/55">Modo de preparo<textarea

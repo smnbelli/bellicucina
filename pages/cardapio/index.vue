@@ -14,8 +14,8 @@ const ignoreClick = ref(false)
 const pointerActive = ref(false)
 const showLeftFade = ref(false)
 const showRightFade = ref(false)
-const drag = (event: PointerEvent) => { if (!carousel.value) return; pointerActive.value = true; isDragging.value = false; dragStart.value = event.clientX; scrollStart.value = carousel.value.scrollLeft }
-const move = (event: PointerEvent) => { if (!carousel.value || !pointerActive.value) return; if (Math.abs(event.clientX - dragStart.value) > 6) isDragging.value = true; if (isDragging.value) carousel.value.scrollLeft = scrollStart.value - (event.clientX - dragStart.value) }
+const drag = (event: PointerEvent) => { if (!carousel.value || event.pointerType === 'touch') return; pointerActive.value = true; isDragging.value = false; dragStart.value = event.clientX; scrollStart.value = carousel.value.scrollLeft }
+const move = (event: PointerEvent) => { if (!carousel.value || !pointerActive.value || event.pointerType === 'touch') return; if (Math.abs(event.clientX - dragStart.value) > 6) isDragging.value = true; if (isDragging.value) carousel.value.scrollLeft = scrollStart.value - (event.clientX - dragStart.value) }
 const endDrag = () => { ignoreClick.value = isDragging.value; isDragging.value = false; pointerActive.value = false }
 const selectCategory = (slug: string) => { if (ignoreClick.value) { ignoreClick.value = false; return } selectedSlug.value = slug }
 const updateFades = () => { if (!carousel.value) return; showLeftFade.value = carousel.value.scrollLeft > 1; showRightFade.value = carousel.value.scrollLeft + carousel.value.clientWidth < carousel.value.scrollWidth - 1 }
@@ -33,7 +33,7 @@ onBeforeUnmount(() => { window.removeEventListener('pointerup', endDrag); window
         <div :class="[showLeftFade ? 'before:opacity-100' : 'before:opacity-0', showRightFade ? 'after:opacity-100' : 'after:opacity-0']"
             class="carousel-edge-fade relative mb-14 before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
             <div ref="carousel"
-                class="hide-scrollbar flex touch-pan-y cursor-grab gap-2 overflow-x-auto pb-3 active:cursor-grabbing"
+                class="hide-scrollbar momentum-scroll-x flex touch-pan-x cursor-grab gap-2 overflow-x-auto pb-3 active:cursor-grabbing"
                 @pointerdown="drag" @pointermove="move" @pointerup="endDrag" @pointercancel="endDrag"
                 @scroll="updateFades"><button v-for="categoria in categorias" :key="categoria.slug" type="button"
                     :data-category="categoria.slug"
