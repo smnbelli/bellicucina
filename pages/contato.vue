@@ -14,7 +14,7 @@
                 </svg>
                 <div>
                     <p class="font-bold text-forest">WhatsApp</p>
-                    <p class="text-sm text-ink/60">Peça direto pelo chat</p>
+                    <p class="text-sm text-ink/60">Fale diretamente conosco</p>
                 </div>
             </a>
             <a :href="instagramUrl" target="_blank" rel="noreferrer"
@@ -28,7 +28,7 @@
                 </svg>
                 <div>
                     <p class="font-bold text-forest">Instagram</p>
-                    <p class="text-sm text-ink/60">Acompanhe novidades e bastidores</p>
+                    <p class="text-sm text-ink/60">Acompanhe nossas novidades</p>
                 </div>
             </a>
         </div>

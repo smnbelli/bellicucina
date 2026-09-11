@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { getDb } from '../../db'
 import { categorias } from '../../db/schema'
 import { requireAdmin } from '../../utils/auth'
@@ -9,6 +10,8 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<{ nome?: string; slug?: string; peso?: string; preparo?: string }>(event)
   if (!body.nome || !body.slug || !body.peso || !body.preparo) throw createError({ statusCode: 400, statusMessage: 'Preencha nome, identificador, peso e modo de preparo' })
   const db = getDb(config.databaseUrl)
-  const [category] = await db.insert(categorias).values({ nome: body.nome, slug: body.slug, pesoPadrao: body.peso, preparo: body.preparo || undefined }).returning({ id: categorias.id })
+  // novas categorias entram no fim da lista
+  const [{ proximaOrdem }] = await db.select({ proximaOrdem: sql<number>`coalesce(max(${categorias.ordem}), -1) + 1` }).from(categorias)
+  const [category] = await db.insert(categorias).values({ nome: body.nome, slug: body.slug, pesoPadrao: body.peso, preparo: body.preparo || undefined, ordem: proximaOrdem }).returning({ id: categorias.id })
   return { category }
 })

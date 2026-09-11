@@ -31,9 +31,9 @@ onBeforeUnmount(() => { window.removeEventListener('pointerup', endDrag); window
                 WhatsApp.</p>
         </div>
         <div :class="[showLeftFade ? 'before:opacity-100' : 'before:opacity-0', showRightFade ? 'after:opacity-100' : 'after:opacity-0']"
-            class="carousel-edge-fade relative mb-14 before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity">
+            class="carousel-edge-fade relative mx-auto mb-14 max-w-4xl before:pointer-events-none before:absolute before:bottom-0 before:left-0 before:top-0 before:z-10 before:w-8 before:bg-gradient-to-r before:from-cream before:to-transparent before:transition-opacity after:pointer-events-none after:absolute after:bottom-0 after:right-0 after:top-0 after:z-10 after:w-8 after:bg-gradient-to-l after:from-cream after:to-transparent after:transition-opacity md:before:hidden md:after:hidden">
             <div ref="carousel"
-                class="hide-scrollbar momentum-scroll-x flex touch-pan-x cursor-grab gap-2 overflow-x-auto pb-3 active:cursor-grabbing"
+                class="hide-scrollbar momentum-scroll-x flex touch-pan-x cursor-grab gap-2 overflow-x-auto pb-3 active:cursor-grabbing md:flex-wrap md:cursor-auto md:justify-center md:overflow-visible md:pb-0"
                 @pointerdown="drag" @pointermove="move" @pointerup="endDrag" @pointercancel="endDrag"
                 @scroll="updateFades"><button v-for="categoria in categorias" :key="categoria.slug" type="button"
                     :data-category="categoria.slug"

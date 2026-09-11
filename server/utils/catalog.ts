@@ -9,7 +9,7 @@ export const isAvailable = (item: CatalogItem) => item.ativo === true
 
 export const getCatalog = async (databaseUrl: string) => {
 	if (!databaseUrl) throw createError({ statusCode: 503, statusMessage: 'DATABASE_URL não configurada' })
-	const rows = await getDb(databaseUrl).select({ categoryId: categorias.id, slug: categorias.slug, nome: categorias.nome, peso: categorias.pesoPadrao, preparo: categorias.preparo, productId: produtos.id, sabor: produtos.sabor, preco: produtos.preco, ativo: produtos.ativo, estoque_atual: produtos.estoqueAtual }).from(categorias).leftJoin(produtos, eq(produtos.categoriaId, categorias.id)).orderBy(asc(categorias.id), asc(produtos.id))
+	const rows = await getDb(databaseUrl).select({ categoryId: categorias.id, slug: categorias.slug, nome: categorias.nome, peso: categorias.pesoPadrao, preparo: categorias.preparo, productId: produtos.id, sabor: produtos.sabor, preco: produtos.preco, ativo: produtos.ativo, estoque_atual: produtos.estoqueAtual }).from(categorias).leftJoin(produtos, eq(produtos.categoriaId, categorias.id)).orderBy(asc(categorias.ordem), asc(categorias.id), asc(produtos.id))
 	const result = { categorias: [] as CatalogCategory[] }
 	const byId = new Map<number, CatalogCategory>()
 	for (const row of rows) {

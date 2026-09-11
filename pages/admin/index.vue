@@ -77,6 +77,17 @@ const addProduct = async () => {
     notice.value = 'Nova massa incluída.'
 }
 const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' }); loggedIn.value = false; data.value = undefined }
+const moveCategory = async (direction: -1 | 1) => {
+    const items = data.value?.categorias
+    if (!items) return
+    const index = items.findIndex(category => category.slug === selectedCategory.value?.slug)
+    const target = index + direction
+    if (index === -1 || target < 0 || target >= items.length) return
+    const ids = items.map(category => category.id)
+        ;[ids[index], ids[target]] = [ids[target], ids[index]]
+    await $fetch('/api/admin/categorias/ordem', { method: 'PUT', body: { ids } })
+    await refresh()
+}
 </script>
 <template>
     <div class="mx-auto max-w-6xl px-5 py-14">
@@ -99,7 +110,7 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                     <h1 class="display mt-2 text-5xl font-bold text-forest">Controle do cardápio.</h1>
                 </div>
                 <div class="flex gap-4"><span v-if="notice" class="self-center text-sm font-bold text-leaf">{{ notice
-                }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
+                        }}</span><button class="text-sm font-bold text-tomato underline" @click="logout">Sair</button>
                 </div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -182,10 +193,26 @@ const logout = async () => { await $fetch('/api/admin/logout', { method: 'POST' 
                                 stroke-linejoin="round" aria-hidden="true">
                                 <path d="M12 20h9" />
                                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg></button><button type="button"
+                            class="inline-flex h-8 w-8 items-center justify-center rounded-full text-forest transition hover:bg-forest/10 disabled:opacity-30"
+                            aria-label="Mover categoria para a esquerda" title="Mover categoria para a esquerda"
+                            :disabled="data?.categorias[0]?.slug === selectedCategory.slug"
+                            @click="moveCategory(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg></button><button type="button"
+                            class="inline-flex h-8 w-8 items-center justify-center rounded-full text-forest transition hover:bg-forest/10 disabled:opacity-30"
+                            aria-label="Mover categoria para a direita" title="Mover categoria para a direita"
+                            :disabled="data?.categorias.at(-1)?.slug === selectedCategory.slug"
+                            @click="moveCategory(1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M9 18l6-6-6-6" />
                             </svg></button>
                     </div><span v-if="!isEditing" class="text-xs font-bold uppercase tracking-widest text-ink/50">{{
                         selectedCategory.peso
-                        }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
+                    }}</span><input v-else v-model="selectedCategory.peso" aria-label="Peso da porção"
                         class="w-24 border-b border-forest/30 bg-transparent text-right text-xs font-bold uppercase tracking-widest text-ink/70 outline-none focus:border-tomato" />
                 </div>
                 <label v-if="isEditing" class="mt-5 block text-xs text-ink/55">Modo de preparo<textarea

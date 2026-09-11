@@ -43,8 +43,14 @@ const { items, isOpen, total, count, formatPrice, add, decrease, remove, clear, 
                     <div class="border-t border-forest/15 pt-5">
                         <div class="flex items-center justify-between text-lg"><span
                                 class="font-bold text-forest">Total</span><strong>{{ formatPrice(total) }}</strong>
-                        </div><a :href="whatsappHref" target="_blank" rel="noreferrer"
-                            class="mt-5 flex w-full items-center justify-center rounded-full bg-forest px-5 py-3 font-bold text-white hover:bg-tomato">Direcionar
+                        </div>
+                        <NuxtLink to="/informacoes"
+                            class="mt-4 flex items-start gap-2 rounded-xl border border-tomato/30 bg-tomato/10 px-4 py-3 text-xs text-forest transition hover:border-tomato"
+                            @click="isOpen = false"><span aria-hidden="true">⚠️</span><span><strong
+                                    class="font-bold">Antes de finalizar:</strong> confira antecedência, entrega e
+                                conservação em <span class="underline">Informações</span>.</span></NuxtLink><a
+                            :href="whatsappHref" target="_blank" rel="noreferrer"
+                            class="mt-3 flex w-full items-center justify-center rounded-full bg-forest px-5 py-3 font-bold text-white hover:bg-tomato">Direcionar
                             para o WhatsApp ↗</a><button type="button"
                             class="mt-3 w-full text-xs font-bold text-ink/55 underline" @click="clear">Limpar
                             carrinho</button>
